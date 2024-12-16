@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tur Düzenle - Tur Şirketi Yönetim Paneli</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="sidebar-container"></div>
+
+        <main class="main-content">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Tur Düzenle</h1>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <form id="editTourForm" onsubmit="return handleEditSubmit(event)">
+                        <input type="hidden" id="tourId">
+                        
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs mb-4" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#basicInfo">Temel Bilgiler</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#days">Günler</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#prices">Fiyatlar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#other">Diğer</a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab content -->
+                        <div class="tab-content">
+                            <!-- Basic Info Tab -->
+                            <div class="tab-pane fade show active" id="basicInfo">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Tur Adı</label>
+                                        <input type="text" class="form-control" id="tourName" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Kategori</label>
+                                        <select class="form-select" id="category" required>
+                                            <option value="">Seçiniz...</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Operatör</label>
+                                        <select class="form-select" id="operator" required>
+                                            <option value="">Seçiniz...</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Başlangıç Tarihi</label>
+                                        <input type="date" class="form-control" id="startDate" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Bitiş Tarihi</label>
+                                        <input type="date" class="form-control" id="endDate" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Durum</label>
+                                        <select class="form-select" id="status" required>
+                                            <option value="active">Aktif</option>
+                                            <option value="passive">Pasif</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Anasayfada Göster</label>
+                                        <div class="form-control h-auto">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="showOnHomepage">
+                                                <label class="form-check-label">Evet</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Days Tab -->
+                            <div class="tab-pane fade" id="days">
+                                <div id="daysContainer">
+                                    <!-- Days will be added dynamically -->
+                                </div>
+                                <button type="button" class="btn btn-outline-primary mt-3" onclick="addNewDay()">
+                                    <i class="bi bi-plus-lg"></i> Yeni Gün Ekle
+                                </button>
+                            </div>
+
+                            <!-- Prices Tab -->
+                            <div class="tab-pane fade" id="prices">
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label">2 Kişilik Oda (DBL)</label>
+                                        <input type="number" class="form-control" id="priceDouble" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Tek Kişilik Oda</label>
+                                        <input type="number" class="form-control" id="priceSingle" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">3 Kişilik Oda</label>
+                                        <input type="number" class="form-control" id="priceTriple" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">1. Çocuk Fiyatı</label>
+                                        <input type="number" class="form-control" id="priceChild1" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">2. Çocuk Fiyatı</label>
+                                        <input type="number" class="form-control" id="priceChild2" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Other Tab -->
+                            <div class="tab-pane fade" id="other">
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h6 class="mb-3">Dahili Servisler</h6>
+                                        <div class="form-control h-auto">
+                                            <div class="form-check mb-2">
+                                                <input type="checkbox" class="form-check-input" id="includeTransfer">
+                                                <label class="form-check-label">Transfer</label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input type="checkbox" class="form-check-input" id="includeBreakfast">
+                                                <label class="form-check-label">Kahvaltı</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="includeGuide">
+                                                <label class="form-check-label">Rehberlik</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="mb-3">Harici Servisler</h6>
+                                        <div class="form-control h-auto">
+                                            <div class="form-check mb-2">
+                                                <input type="checkbox" class="form-check-input" id="excludeVisa">
+                                                <label class="form-check-label">Vize</label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input type="checkbox" class="form-check-input" id="excludeTips">
+                                                <label class="form-check-label">Bahşişler</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="excludeExtraTours">
+                                                <label class="form-check-label">Ekstra Turlar</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Notlar</label>
+                                    <textarea class="form-control" id="notes" rows="4"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Sözleşme</label>
+                                    <textarea class="form-control" id="contract" rows="4"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button type="button" class="btn btn-secondary" onclick="window.location.href='tours.html'">İptal</button>
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/sidebar.js"></script>
+<script src="../js/tour-data.js"></script>
+<script src="../js/form-utils.js"></script>
+<script src="../js/tour-form.js"></script>
+
+</body>
+</html>
