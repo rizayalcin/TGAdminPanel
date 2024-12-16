@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Araçlar - Tur Şirketi Yönetim Paneli</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="sidebar-container"></div>
+
+        <main class="main-content">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Araçlar</h1>
+            </div>
+
+            <!-- Sync Tool -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Prontotour Senkronizasyonu</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <p class="text-muted">Prontotour web servisinden paket turları senkronize edin.</p>
+                        <button id="syncButton" class="btn btn-primary" onclick="startSync()">
+                            <i class="bi bi-arrow-repeat"></i> Senkronize Et
+                        </button>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div id="syncProgress" class="mb-4" style="display: none;">
+                        <label class="form-label">İlerleme Durumu</label>
+                        <div class="progress" style="height: 25px;">
+                            <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated" 
+                                 role="progressbar" style="width: 0%">0%</div>
+                        </div>
+                    </div>
+
+                    <!-- Log Window -->
+                    <div class="mb-3">
+                        <label class="form-label">İşlem Kayıtları</label>
+                        <div id="logWindow" class="form-control h-auto bg-light" 
+                             style="min-height: 300px; max-height: 500px; overflow-y: auto; font-family: monospace;">
+                        </div>
+                    </div>
+
+                    <!-- Status -->
+                    <div id="syncStatus" class="alert d-none">
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/sidebar.js"></script>
+<script src="../js/sync-service.js"></script>
+
+</body>
+</html>
